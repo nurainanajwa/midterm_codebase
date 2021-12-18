@@ -2,9 +2,22 @@
 //! Parts of the code have been given. Complete the remaining.
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import '../../models/note.dart';
 
-class NoteScreen extends StatelessWidget {
+class NoteScreen extends StatefulWidget {
+  final Note mockNoteList;
+  NoteScreen(this.mockNoteList);
+
   @override
+  State<NoteScreen> createState() => _NoteScreenState();
+}
+
+class _NoteScreenState extends State<NoteScreen> {
+  var change = new List(20);
+  bool signal = false;
+
+@override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -17,13 +30,17 @@ class NoteScreen extends StatelessWidget {
                 Icons.check_circle,
                 size: 30,
               ),
-              onPressed: () {}),
+              onPressed: () {
+                Navigator.pop(context, widget.mockNoteList);
+              }),
           IconButton(
               icon: Icon(
                 Icons.cancel_sharp,
                 size: 30,
               ),
-              onPressed: () {}),
+              onPressed: () {
+                Navigator.pop(context, widget.mockNoteList);
+              }),
         ],
       ),
       body: Container(

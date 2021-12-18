@@ -18,8 +18,12 @@ class NoteListScreen extends StatefulWidget {
 }
 
 class _NoteListScreenState extends State<NoteListScreen> {
-var change = new List(20);
-bool signal = false;
+  bool edit = false;
+  bool delete = false;
+ 
+  void deleteNote(int index){}
+  bool visibility = false;
+  
 
   void _navigate(int index) async {
     Note returnData = await Navigator.push(
@@ -47,7 +51,7 @@ bool signal = false;
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22.0),
               ),
               onPressed: () => setState((){
-                Navigator.pop(widget.mockNoteList);
+                Navigator.pop(context, widget.mockNoteList);
               }),
             ),
           ),
@@ -62,36 +66,40 @@ bool signal = false;
           color: Colors.blueGrey,
         ),
         itemBuilder: (context, index) => ListTile(
-          title: Text(widget.mockNoteList[index].title),
-          subtitle: Text ( "${widget.mockNoteList[index].totalNote()}"),
-          trailing : CircleAvatar(
-            child : Text(widget.mockNoteList[index].noteSelected().toString())),
+        
           trailing: SizedBox(
             width: 110.0,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                IconButton(
+                Visibility(
+                  visible : visibility,
+                  child:
+                  IconButton(
                   icon: Icon(Icons.edit, color: Colors.blue),
-                  onPressed: () {
-                    _navigate(index);
-                  },
-                ),
+                  onPressed: () => setState((){
+                  Navigator.pop(context, widget.mockNoteList);
+                  }),
+                )),
+                Visibility(
+                  visible : visibility,
+                  child:
                 IconButton(
                   icon: Icon(
                     Icons.cancel,
                     color: Colors.blue,
                   ),
-                  onPressed: () {
-                    _navigate(index);
-                  },
+                  onPressed: () => setState((){
+                  Navigator.pop(context, widget.mockNoteList);
+                  }),
                 ),
+                )
               ],
             ),
           ),
           selected: false,
-          title: Text(widget.mockNoteList[index].title),
-          subtitle: Text(widget.mockNoteList[index].content),
+          title: Text( "${widget.mockNoteList[index].title}"),
+          subtitle: Text("${widget.mockNoteList[index].content}"),
           onTap: () {
             _navigate(index);
           },
@@ -101,7 +109,9 @@ bool signal = false;
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         tooltip: 'Add a new note',
-        onPressed: () {},
+        onPressed: () => setState((){
+          Navigator.pop(context, widget.mockNoteList);
+          }),
       ),
     );
   }
