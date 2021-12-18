@@ -2,8 +2,12 @@
 //! Parts of the code have been given. Complete the remaining.
 
 import 'package:flutter/material.dart';
+import '../../models/note.dart';
 
 class NoteListScreen extends StatefulWidget {
+  final List<Note> mockNoteList;
+  NoteListScreen(this.mockNoteList);
+  
   @override
   _NoteListScreenState createState() => _NoteListScreenState();
 }
