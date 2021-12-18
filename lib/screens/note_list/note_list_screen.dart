@@ -1,6 +1,8 @@
 //! This is file is meant for the first screen.
 //! Parts of the code have been given. Complete the remaining.
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import '../../models/note.dart';
@@ -16,15 +18,21 @@ class NoteListScreen extends StatefulWidget {
 }
 
 class _NoteListScreenState extends State<NoteListScreen> {
+var change = new List(20);
+bool signal = false;
 
   void _navigate(int index) async {
     Note returnData = await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (contact) => NoteScreen(Note.copy(widget.mockNoteList[index])),
-    ), 
+      ), 
     );
+    if (returnData != null){
+      setState(() => widget.mockNoteList[index] = returnData);
+    }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +46,9 @@ class _NoteListScreenState extends State<NoteListScreen> {
                 '0',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22.0),
               ),
-              onPressed: () {},
+              onPressed: () => setState((){
+                Navigator.pop(widget.mockNoteList);
+              }),
             ),
           ),
           SizedBox(
@@ -52,6 +62,10 @@ class _NoteListScreenState extends State<NoteListScreen> {
           color: Colors.blueGrey,
         ),
         itemBuilder: (context, index) => ListTile(
+          title: Text(widget.mockNoteList[index].title),
+          subtitle: Text ( "${widget.mockNoteList[index].totalNote()}"),
+          trailing : CircleAvatar(
+            child : Text(widget.mockNoteList[index].noteSelected().toString())),
           trailing: SizedBox(
             width: 110.0,
             child: Row(
@@ -59,14 +73,18 @@ class _NoteListScreenState extends State<NoteListScreen> {
               children: [
                 IconButton(
                   icon: Icon(Icons.edit, color: Colors.blue),
-                  onPressed: () {},
+                  onPressed: () {
+                    _navigate(index);
+                  },
                 ),
                 IconButton(
                   icon: Icon(
                     Icons.cancel,
                     color: Colors.blue,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    _navigate(index);
+                  },
                 ),
               ],
             ),
@@ -74,7 +92,9 @@ class _NoteListScreenState extends State<NoteListScreen> {
           selected: false,
           title: Text(widget.mockNoteList[index].title),
           subtitle: Text(widget.mockNoteList[index].content),
-          onTap: () {},
+          onTap: () {
+            _navigate(index);
+          },
           onLongPress: () {},
         ),
       ),

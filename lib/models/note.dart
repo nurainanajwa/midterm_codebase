@@ -1,6 +1,6 @@
 //! Define the model class here
 
-import 'package:flutter/cupertino.dart';
+//import 'package:flutter/cupertino.dart';
 
 class Note {
   String _title;
